@@ -39,7 +39,7 @@ router.get('/me', async (req, res) => {
     
     const userGamification = await Gamification.findOne({user: payload.sub});
     if(!userGamification) {
-      return res.json({rank: 0, xp: 0, level: 1});
+      return res.json({rank: 0, xp: 0, level: 1, badges: [], streak: 0});
     }
     
     const rank = await Gamification.countDocuments({xp: {$gt: userGamification.xp}}) + 1;

@@ -1,3 +1,5 @@
+const express = require('express');
+const router = express.Router();
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 router.post('/chat', async (req, res) => {
@@ -11,7 +13,6 @@ router.post('/chat', async (req, res) => {
   
   try {
     // Real OpenAI integration would go here
-    // For now, return intelligent stub
     const reply = `AI Tutor: Great question about "${message}"! ${
       courseContent 
         ? `Based on the course material, here's what you need to know: [AI-generated explanation would appear here]` 
@@ -43,3 +44,5 @@ router.post('/generate-quiz', async (req, res) => {
     generatedByAI: true
   });
 });
+
+module.exports = router;

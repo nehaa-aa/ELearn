@@ -4,7 +4,6 @@ import api from '../api';
 export default function TeacherDashboard(){
   const [courses, setCourses] = useState<any[]>([]);
   const [showCreateCourse, setShowCreateCourse] = useState(false);
-  const [showCreateQuiz, setShowCreateQuiz] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [level, setLevel] = useState('beginner');
@@ -31,9 +30,6 @@ export default function TeacherDashboard(){
         <div style={{marginTop:20}}>
           <button onClick={()=>setShowCreateCourse(!showCreateCourse)}>
             {showCreateCourse ? 'Cancel' : 'Create New Course'}
-          </button>
-          <button onClick={()=>setShowCreateQuiz(!showCreateQuiz)} style={{marginLeft:10}}>
-            Create Quiz
           </button>
         </div>
         
