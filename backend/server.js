@@ -13,6 +13,7 @@ const analyticsRoutes = require('./routes/analytics');
 const progressRoutes = require('./routes/progress');
 const recommendationRoutes = require('./routes/recommendation');
 const leaderboardRoutes = require('./routes/leaderboard');
+const enrollmentRoutes = require('./routes/enrollment');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/enrollment', enrollmentRoutes);
 
 // Health check
 app.get('/', (req, res) => {
@@ -55,7 +57,8 @@ app.get('/', (req, res) => {
       analytics: '/api/analytics',
       progress: '/api/progress',
       recommendations: '/api/recommendations',
-      leaderboard: '/api/leaderboard'
+      leaderboard: '/api/leaderboard',
+      enrollment: '/api/enrollment'
     }
   });
 });
@@ -76,4 +79,3 @@ app.listen(PORT, () => {
   console.log(`🚀 Server listening on http://localhost:${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
-

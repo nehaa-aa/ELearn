@@ -1,5 +1,5 @@
 // ============================================
-// FILE: frontend/src/pages/Auth.tsx (IMPROVED)
+// FILE: frontend/src/pages/Auth.tsx (FIXED)
 // ============================================
 import React, {useState, useEffect} from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
@@ -14,47 +14,97 @@ export default function Auth(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(roleFromUrl || 'student');
+  const [loading, setLoading] = useState(false);
   
   useEffect(() => {
+    // Check if already logged in
+    const token = localStorage.getItem('token');
+    if(token) {
+      setAuthToken(token);
+      api.get('/api/auth/me')
+        .then(r => {
+          // Already authenticated, redirect
+          window.location.href = '/dashboard';
+        })
+        .catch(() => {
+          // Invalid token, clear it
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        });
+    }
+    
     if(roleFromUrl) {
       setRole(roleFromUrl);
-      setIsLogin(false); // Open signup form if role is specified in URL
+      setIsLogin(false);
     }
   }, [roleFromUrl]);
   
   async function submit(e:any){
     e.preventDefault();
+    setLoading(true);
+    
     try{
       if(isLogin){
+        // LOGIN
         const res = await api.post('/api/auth/login', { email, password });
+        
+        // CRITICAL: Store both token and user data
         const token = res.data.token;
+        const user = res.data.user;
+        
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        // CRITICAL: Set auth token for all future API requests
         setAuthToken(token);
         
+        // Small delay to ensure token is set
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         // Redirect based on role
-        if(res.data.user.role === 'teacher') {
+        if(user.role === 'teacher') {
           window.location.href = '/teacher';
-        } else if(res.data.user.role === 'admin') {
+        } else if(user.role === 'admin') {
           window.location.href = '/dashboard';
         } else {
           window.location.href = '/dashboard';
         }
       } else {
-        const res = await api.post('/api/auth/register', { name, email, password, role });
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        setAuthToken(res.data.token);
+        // REGISTER
+        const res = await api.post('/api/auth/register', { 
+          name, 
+          email, 
+          password, 
+          role 
+        });
+        
+        // CRITICAL: Store both token and user data
+        const token = res.data.token;
+        const user = res.data.user;
+        
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        // CRITICAL: Set auth token for all future API requests
+        setAuthToken(token);
+        
+        // Small delay to ensure token is set
+        await new Promise(resolve => setTimeout(resolve, 100));
         
         // Redirect based on role
         if(role === 'teacher') {
           window.location.href = '/teacher';
+        } else if(role === 'admin') {
+          window.location.href = '/dashboard';
         } else {
           window.location.href = '/dashboard';
         }
       }
     }catch(err:any){ 
-      alert(err?.response?.data?.message || err.message); 
+      console.error('Auth error:', err);
+      const message = err?.response?.data?.message || err.message || 'Authentication failed';
+      alert(message);
+      setLoading(false);
     }
   }
   
@@ -67,7 +117,8 @@ export default function Auth(){
             margin:0,
             background:'linear-gradient(90deg, #06b6d4, #8b5cf6)',
             WebkitBackgroundClip:'text',
-            WebkitTextFillColor:'transparent'
+            WebkitTextFillColor:'transparent',
+            backgroundClip:'text'
           }}>
             ← AI E-Learn
           </h1>
@@ -152,6 +203,7 @@ export default function Auth(){
               value={name} 
               onChange={e=>setName(e.target.value)} 
               required
+              disabled={loading}
             />
           )}
           
@@ -161,6 +213,7 @@ export default function Auth(){
             value={email} 
             onChange={e=>setEmail(e.target.value)} 
             required
+            disabled={loading}
           />
           
           <input 
@@ -170,10 +223,18 @@ export default function Auth(){
             onChange={e=>setPassword(e.target.value)} 
             required
             minLength={6}
+            disabled={loading}
           />
           
-          <button type="submit" style={{width:'100%', padding:14, fontSize:16, marginTop:10}}>
-            {isLogin ? 'Sign In' : `Create ${role.charAt(0).toUpperCase() + role.slice(1)} Account`}
+          <button 
+            type="submit" 
+            style={{width:'100%', padding:14, fontSize:16, marginTop:10}}
+            disabled={loading}
+          >
+            {loading ? 'Please wait...' : 
+              isLogin ? 'Sign In' : 
+              `Create ${role.charAt(0).toUpperCase() + role.slice(1)} Account`
+            }
           </button>
           
           <div style={{textAlign:'center', marginTop:20}}>
@@ -186,6 +247,7 @@ export default function Auth(){
                 padding:'8px 0',
                 boxShadow:'none'
               }}
+              disabled={loading}
             >
               {isLogin 
                 ? "Don't have an account? Sign up" 
@@ -204,8 +266,29 @@ export default function Auth(){
             fontSize:13,
             color:'#9fb'
           }}>
-            <div style={{fontWeight:600, marginBottom:8}}>Demo Accounts:</div>
-            <div>Admin: admin@example.com / password</div>
+            <div style={{fontWeight:600, marginBottom:8, color:'#7be5ff'}}>Demo Accounts:</div>
+            <div style={{marginBottom:4}}>
+              <span style={{color:'#9fb'}}>Admin:</span> admin@example.com / password
+            </div>
+            <div style={{fontSize:12, marginTop:8, color:'rgba(159,255,191,0.6)'}}>
+              Or create a new student/teacher account above
+            </div>
+          </div>
+        )}
+        
+        {/* Security Note for New Users */}
+        {!isLogin && (
+          <div style={{
+            marginTop:20,
+            padding:12,
+            background:'rgba(7,182,212,0.05)',
+            borderRadius:8,
+            fontSize:12,
+            color:'#9fb',
+            border:'1px solid rgba(7,182,212,0.2)'
+          }}>
+            <div style={{color:'#7be5ff', marginBottom:4}}>🔒 Your account is secure</div>
+            Password must be at least 6 characters. Your data is encrypted and protected.
           </div>
         )}
       </div>
