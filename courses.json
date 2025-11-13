@@ -1,0 +1,156 @@
+[
+  {
+    "title": "Introduction to Artificial Intelligence",
+    "description": "Learn the foundations of Artificial Intelligence, history, branches, and real-world applications.",
+    "teacher": "Dr. Maya Verghese",
+    "tags": [
+      "AI",
+      "Machine Learning",
+      "Beginner"
+    ],
+    "level": "beginner",
+    "modules": [
+      {
+        "title": "What is AI?",
+        "content": "AI refers to machine systems capable of performing tasks that typically require human intelligence.",
+        "contentType": "article",
+        "order": 1
+      },
+      {
+        "title": "History of AI",
+        "content": "From expert systems to deep learning, explore the evolution of AI.",
+        "contentType": "video",
+        "order": 2
+      },
+      {
+        "title": "Applications of AI",
+        "content": "AI is used in medicine, finance, self-driving cars, robotics, and more.",
+        "contentType": "article",
+        "order": 3
+      }
+    ]
+  },
+  {
+    "title": "Python for Data Science",
+    "description": "Master Python for analytics, covering NumPy, Pandas, Matplotlib and practical data workflows.",
+    "teacher": "Prof. Niranjan Rao",
+    "tags": [
+      "Python",
+      "Data Science",
+      "Programming"
+    ],
+    "level": "beginner",
+    "modules": [
+      {
+        "title": "Python Essentials",
+        "content": "Variables, loops, functions, and file handling.",
+        "contentType": "article",
+        "order": 1
+      },
+      {
+        "title": "Working with NumPy",
+        "content": "Learn vectorized operations and array manipulation.",
+        "contentType": "video",
+        "order": 2
+      },
+      {
+        "title": "Data Analysis with Pandas",
+        "content": "Cleaning, merging, slicing, and visualizing data.",
+        "contentType": "article",
+        "order": 3
+      }
+    ]
+  },
+  {
+    "title": "Machine Learning Basics",
+    "description": "A comprehensive introduction to ML models, algorithms, and evaluation methods.",
+    "teacher": "Dr. Kavita Shenoy",
+    "tags": [
+      "Machine Learning",
+      "Intermediate"
+    ],
+    "level": "intermediate",
+    "modules": [
+      {
+        "title": "Regression Models",
+        "content": "Linear regression, regularization, and evaluation metrics.",
+        "contentType": "article",
+        "order": 1
+      },
+      {
+        "title": "Classification Models",
+        "content": "Logistic regression, SVMs, and decision trees.",
+        "contentType": "article",
+        "order": 2
+      },
+      {
+        "title": "Unsupervised Learning",
+        "content": "Explore clustering techniques like K-Means and DBSCAN.",
+        "contentType": "video",
+        "order": 3
+      }
+    ]
+  },
+  {
+    "title": "Deep Learning with Neural Networks",
+    "description": "Explore how deep neural networks function and build practical models.",
+    "teacher": "Prof. Ashwin Menon",
+    "tags": [
+      "Deep Learning",
+      "Neural Networks",
+      "Advanced"
+    ],
+    "level": "advanced",
+    "modules": [
+      {
+        "title": "Neural Network Fundamentals",
+        "content": "Understand perceptrons, activations, and multi-layer networks.",
+        "contentType": "article",
+        "order": 1
+      },
+      {
+        "title": "Backpropagation & Optimization",
+        "content": "Learn how neural networks are trained using gradient descent.",
+        "contentType": "video",
+        "order": 2
+      },
+      {
+        "title": "CNNs & RNNs",
+        "content": "Convolutional and recurrent networks in computer vision and NLP.",
+        "contentType": "article",
+        "order": 3
+      }
+    ]
+  },
+  {
+    "title": "Full-Stack Web Development",
+    "description": "Become a full-stack developer using modern HTML, CSS, JS, Node.js, and MongoDB.",
+    "teacher": "Dr. Arjun Nair",
+    "tags": [
+      "Web",
+      "Full Stack",
+      "Intermediate"
+    ],
+    "level": "intermediate",
+    "modules": [
+      {
+        "title": "Frontend Foundations",
+        "content": "HTML, CSS, JavaScript basics, and responsive UI.",
+        "contentType": "article",
+        "order": 1
+      },
+      {
+        "title": "Backend with Node.js",
+        "content": "Build secure REST APIs with Express.",
+        "contentType": "article",
+        "order": 2
+      },
+      {
+        "title": "MongoDB & Deployment",
+        "content": "Learn CRUD operations, indexing, and cloud deployment.",
+        "contentType": "video",
+        "order": 3
+      }
+    ]
+  }
+]

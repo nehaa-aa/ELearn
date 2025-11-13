@@ -1,0 +1,7 @@
+
+body{font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#020615,#071020);color:#dff3ff;margin:0;padding:20px}
+.page{max-width:980px;margin:40px auto}
+.card{background:rgba(255,255,255,0.03);padding:20px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+a{color:#7be5ff}
+input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#dff3ff}
+button{padding:10px 14px;border-radius:8px;border:none;background:#06b6d4;color:#001;cursor:pointer}
