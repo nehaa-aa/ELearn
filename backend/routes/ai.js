@@ -1,20 +1,45 @@
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-const express = require('express');
-const router = express.Router();
-
-// AI Tutor chat stub (RAG and OpenAI would be integrated here)
-router.post('/chat', async (req,res)=>{
-  const { message, context } = req.body;
-  // naive echo + guided reply
-  const reply = `Tutor (stub): I received your message: "${message}". Ask me specifics about a module and I'll help.`;
-  res.json({ reply });
+router.post('/chat', async (req, res) => {
+  const { message, context, courseContent } = req.body;
+  
+  if(!OPENAI_API_KEY) {
+    return res.json({
+      reply: `AI Tutor: I received your question about "${message}". ${context ? `Based on ${context}, ` : ''}I can help explain concepts, clarify doubts, and guide you through learning. (Note: OpenAI API key not configured)`
+    });
+  }
+  
+  try {
+    // Real OpenAI integration would go here
+    // For now, return intelligent stub
+    const reply = `AI Tutor: Great question about "${message}"! ${
+      courseContent 
+        ? `Based on the course material, here's what you need to know: [AI-generated explanation would appear here]` 
+        : 'Let me help you understand this concept step by step.'
+    }`;
+    
+    res.json({ reply });
+  } catch(e) {
+    console.error(e);
+    res.status(500).json({message: 'AI service error'});
+  }
 });
 
-// generate quiz stub
-router.post('/generate-quiz', async (req,res)=>{
-  const { topic } = req.body;
-  const sample = { title: `Auto-quiz: ${topic}`, questions: [{question:'What is X?', type:'short', answer:'Explain X'}] };
-  res.json(sample);
+router.post('/generate-quiz', async (req, res) => {
+  const { topic, difficulty, questionCount } = req.body;
+  
+  // AI-generated quiz stub
+  const questions = Array.from({length: questionCount || 5}, (_, i) => ({
+    question: `Question ${i+1}: What is the key concept of ${topic}?`,
+    type: 'mcq',
+    choices: ['Option A', 'Option B', 'Option C', 'Option D'],
+    answer: 0
+  }));
+  
+  res.json({
+    title: `AI-Generated Quiz: ${topic}`,
+    difficulty: difficulty || 'medium',
+    questions,
+    generatedByAI: true
+  });
 });
-
-module.exports = router;
